@@ -21,13 +21,15 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 	final int screenWidth = (int)screenSize.getWidth();
 	private int delay = 10;
 	private Ball ball;
+	private Paddle paddle;
 	private Timer timer;
-	private Rectangle paddle;
 	boolean play = false;
 	
 	public Game() {
+		addKeyListener(this);
+		setFocusable(true);
 		ball = new Ball(screenWidth/2+100, screenHeight/2, 20); //spawn coordinates for the ball;
-		paddle = new Rectangle(screenWidth/2-50,screenHeight/2+290, 100, 10);
+		paddle = new Paddle(screenWidth/2-50,screenHeight/2+290, 100, 10,10);
 		timer = new Timer(delay,this);
 		timer.start();
 		
@@ -53,18 +55,22 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
 		//Drawing the ball
 		ball.draw(g);
-		g.setColor(Color.blue);
-		g.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
+		paddle.draw(g);
+		//g.setColor(Color.blue);
+		//g.fillRect(paddle.getX(), paddle.gety(), paddle.getWidth(), paddle.getHeight());
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		if(play) {
+			//Liikuta palloa.
+			ball.Move();
+			ball.checkCollisionWithWalls(screenWidth/2, screenHeight/2-300);
+			ball.checkCollisionWithPaddle(paddle.getBounds());
+			repaint();
+			// TODO Auto-generated method stub
+		}
 		
-		//Liikuta palloa.
-		ball.Move();
-		ball.checkCollisionWithWalls(screenWidth/2, screenHeight/2-300);
-		repaint();
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -77,8 +83,24 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode()== KeyEvent.VK_RIGHT) {
-			moveRight();
-			System.out.println("liikut");
+			if(paddle.getX() >=1210-paddle.getWidth()/2) {
+				paddle.setX(1210 - paddle.getWidth()/2);
+			}else {
+				paddle.moveRight();
+			}
+			System.out.println("liikut oikealle");
+		}
+		repaint();
+		if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+			if(paddle.getX()<=613+paddle.getWidth()/2) {
+				paddle.setX(613 + paddle.getWidth()/2);
+			} else {
+				paddle.moveLeft();
+				System.out.println("liikut vasemmalle");
+			}	
+		}
+		if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+			play = true;
 		}
 		// TODO Auto-generated method stub
 		
@@ -89,8 +111,5 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 		// TODO Auto-generated method stub
 		
 	}
-	public void moveRight() {
-		System.out.println("HERE");
-		paddle.x += 20;
-	}
+	
 }

@@ -35,7 +35,27 @@ public class Ball {
 	}
 	
 	public void checkCollisionWithPaddle(Rectangle paddle) {
-		if(getBounds().intersects(paddle)) {
+		if (getBounds().intersects(paddle)) {
+	        // Calculate ball's center
+	        int ballCenterX = x + diameter / 2;
+
+	        // Calculate where the ball hit on the paddle
+	        int paddleCenterX = paddle.x + paddle.width / 2;
+	        int deltaX = ballCenterX - paddleCenterX;
+
+	        // Adjust ball's speed based on collision point on the paddle
+	        double collisionRatio = deltaX / (paddle.width / 2.0);
+	        int maxBounceAngle = 120; // Max angle for ball's bounce from the paddle
+
+	        // Calculate new xSpeed based on the collision point
+	        double bounceAngle = collisionRatio * maxBounceAngle;
+	        double radianAngle = Math.toRadians(bounceAngle);
+	        xSpeed = (int) (Math.sin(radianAngle) * 5); // Adjust the 5 for paddle speed
+	        ySpeed = -ySpeed; // Reverse direction on paddle collision
+	    }
+	}
+	public void checkOutOfBounds(int screenBottomBorder) {
+		if( y < screenBottomBorder) {
 			
 		}
 	}
