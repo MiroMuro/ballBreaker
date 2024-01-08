@@ -2,6 +2,7 @@ package brickBreakerGame;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
@@ -20,6 +21,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 	final int screenHeight = (int)screenSize.getHeight();
 	final int screenWidth = (int)screenSize.getWidth();
 	private int delay = 10;
+	int score = 0;
 	private Ball ball;
 	private Paddle paddle;
 	private Timer timer;
@@ -56,6 +58,14 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 		//Drawing the ball
 		ball.draw(g);
 		paddle.draw(g);
+		if(ball.checkOutOfBounds(screenHeight-240) == false) {
+			play = false;
+			g.setFont(new Font("serif",Font.BOLD,30));
+			g.drawString("You lost!",910,540);
+		};
+		
+		
+		g.dispose();
 		//g.setColor(Color.blue);
 		//g.fillRect(paddle.getX(), paddle.gety(), paddle.getWidth(), paddle.getHeight());
 	}
@@ -66,7 +76,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 			//Liikuta palloa.
 			ball.Move();
 			ball.checkCollisionWithWalls(screenWidth/2, screenHeight/2-300);
-			ball.checkCollisionWithPaddle(paddle.getBounds());
+			ball.checkCollisionWithPaddle(paddle.getBounds());					
 			repaint();
 			// TODO Auto-generated method stub
 		}

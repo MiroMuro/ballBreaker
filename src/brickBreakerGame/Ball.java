@@ -14,7 +14,7 @@ public class Ball {
 		this.y = y;
 		this.diameter = diameter;
 		this.xSpeed = -3;
-		this.ySpeed = -3;
+		this.ySpeed = -6;
 	}
 	
 	public void Move() {
@@ -23,41 +23,47 @@ public class Ball {
 	}
 	
 	public void checkCollisionWithWalls(int screenWidth, int screenHeight) {
+		System.out.println(screenHeight);
 		//reverse direction on wall collision
 		if(x <= screenWidth-300 || x >= screenWidth+300-diameter) {
 			 xSpeed = -xSpeed;
 		}
 		//reverse direction on ceiling collision
-		if(y == screenHeight) {
+		if(y < screenHeight -4 ) {
+			System.out.println("HWERE");
 			ySpeed = -ySpeed;
 		}
 		
 	}
 	
 	public void checkCollisionWithPaddle(Rectangle paddle) {
-		if (getBounds().intersects(paddle)) {
-	        // Calculate ball's center
+		System.out.println(ySpeed);
+	    if (getBounds().intersects(paddle)) {
+	        int paddleCenterX = paddle.x + paddle.width / 2;
 	        int ballCenterX = x + diameter / 2;
 
-	        // Calculate where the ball hit on the paddle
-	        int paddleCenterX = paddle.x + paddle.width / 2;
-	        int deltaX = ballCenterX - paddleCenterX;
+	        double collisionPoint = ballCenterX - paddleCenterX;
+	        double normalizedCollisionPoint = collisionPoint / (paddle.width / 2.0);
 
-	        // Adjust ball's speed based on collision point on the paddle
-	        double collisionRatio = deltaX / (paddle.width / 2.0);
-	        int maxBounceAngle = 120; // Max angle for ball's bounce from the paddle
+	        double bounceAngle = normalizedCollisionPoint * Math.PI / 3; // Adjust for desired bounce angle
 
-	        // Calculate new xSpeed based on the collision point
-	        double bounceAngle = collisionRatio * maxBounceAngle;
-	        double radianAngle = Math.toRadians(bounceAngle);
-	        xSpeed = (int) (Math.sin(radianAngle) * 5); // Adjust the 5 for paddle speed
-	        ySpeed = -ySpeed; // Reverse direction on paddle collision
+	        xSpeed = (int) (5 * Math.sin(bounceAngle));
+	        
+	        // Ensure a minimum vertical speed to prevent vertical sliding
+	        ySpeed = (int) Math.max(-12, -8 * Math.cos(bounceAngle)); // -5 to reverse direction, -4 is the minimum vertical speed
+
+	        // Adjust the ball's position above the paddle to avoid sticking
+	        y = paddle.y - diameter;
 	    }
 	}
-	public void checkOutOfBounds(int screenBottomBorder) {
+
+
+	
+	public boolean checkOutOfBounds(int screenBottomBorder) {
 		if( y < screenBottomBorder) {
-			
+			return true;
 		}
+		return false;
 	}
 	public Rectangle getBounds() {
 		return  new Rectangle(x,y,diameter, diameter);
