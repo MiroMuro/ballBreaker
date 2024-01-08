@@ -1,7 +1,7 @@
 package brickBreakerGame;
 
 public class Paddle {
-	private int x;
-	private int y;
+	private int x,y;
+	private int width;
 	
 }

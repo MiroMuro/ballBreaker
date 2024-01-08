@@ -26,7 +26,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 	boolean play = false;
 	
 	public Game() {
-		ball = new Ball(screenWidth/2, screenHeight/2, 20); //spawn coordinates for the ball;
+		ball = new Ball(screenWidth/2+100, screenHeight/2, 20); //spawn coordinates for the ball;
 		paddle = new Rectangle(screenWidth/2-50,screenHeight/2+290, 100, 10);
 		timer = new Timer(delay,this);
 		timer.start();
@@ -59,7 +59,10 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
+		//Liikuta palloa.
 		ball.Move();
+		ball.checkCollisionWithWalls(screenWidth/2, screenHeight/2-300);
 		repaint();
 		// TODO Auto-generated method stub
 		
@@ -73,6 +76,10 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode()== KeyEvent.VK_RIGHT) {
+			moveRight();
+			System.out.println("liikut");
+		}
 		// TODO Auto-generated method stub
 		
 	}
@@ -81,5 +88,9 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+	public void moveRight() {
+		System.out.println("HERE");
+		paddle.x += 20;
 	}
 }

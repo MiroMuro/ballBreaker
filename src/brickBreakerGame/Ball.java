@@ -24,11 +24,11 @@ public class Ball {
 	
 	public void checkCollisionWithWalls(int screenWidth, int screenHeight) {
 		//reverse direction on wall collision
-		if(x <= 0 || x >= screenWidth-diameter) {
+		if(x <= screenWidth-300 || x >= screenWidth+300-diameter) {
 			 xSpeed = -xSpeed;
 		}
 		//reverse direction on ceiling collision
-		if(y == 0) {
+		if(y == screenHeight) {
 			ySpeed = -ySpeed;
 		}
 		
@@ -53,7 +53,7 @@ public class Ball {
 	public int getY() {
 		return y;
 	}
-	public int getDiamter() {
+	public int getDiameter() {
 		return diameter;
 	}
 }
