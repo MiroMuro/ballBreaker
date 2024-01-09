@@ -11,7 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -25,7 +26,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 	int score = 0;
 	private Ball ball;
 	private Paddle paddle;
-	private Brick brick;
+	private BrickList blist = new BrickList(3,9);
 	int numberOfBricks = 15;
 	private Timer timer;
 	boolean play = false;
@@ -35,7 +36,6 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 		setFocusable(true);
 		ball = new Ball(screenWidth/2+100, screenHeight/2, 20); //spawn coordinates for the ball;
 		paddle = new Paddle(screenWidth/2-50,screenHeight/2+290, 100, 10,10);
-		brick = new Brick(900,330,80,50);
 		timer = new Timer(delay,this);
 		timer.start();
 		
@@ -60,7 +60,9 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 		g.fillRect((screenWidth-(screenWidth/2-300)),(screenHeight-(screenHeight/2+300)),3,600);
 
 		//Drawing the ball
-		brick.paint((Graphics2D) g);
+		
+		
+		blist.draw((Graphics2D) g);
 		ball.draw(g);
 		paddle.draw(g);
 		if(ball.checkOutOfBounds(screenHeight-240) == false) {
@@ -71,8 +73,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 		
 		
 		g.dispose();
-		//g.setColor(Color.blue);
-		//g.fillRect(paddle.getX(), paddle.gety(), paddle.getWidth(), paddle.getHeight());
+		
 	}
 
 	@Override
@@ -82,7 +83,14 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 			ball.Move();
 			ball.checkCollisionWithWalls(screenWidth/2, screenHeight/2-300);
 			ball.checkCollisionWithPaddle(paddle.getBounds());
-			ball.checkCollisionWithBrick(brick);
+			
+			for(int i = 0; i < blist.list.length; i++) {
+				for(int j = 0; j< blist.list[i].length; j++) {
+					ball.checkCollisionWithBrick(blist.list[i][j]);
+				}
+				
+			}
+			
 			repaint();
 			// TODO Auto-generated method stub
 		}
