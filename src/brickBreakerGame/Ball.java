@@ -14,7 +14,7 @@ public class Ball {
 		this.y = y;
 		this.diameter = diameter;
 		this.xSpeed = -3;
-		this.ySpeed = -6;
+		this.ySpeed = -1;
 	}
 	
 	public void Move() {
@@ -22,8 +22,27 @@ public class Ball {
 		y += ySpeed;
 	}
 	
+	public void checkCollisionWithBrick(Brick brick) {
+		
+		if(getBounds().intersects(brick.getBounds())){
+			
+			brick.setDestroyed(true);
+			if(y >= (brick.height+brick.y-diameter)){
+				ySpeed= -ySpeed;
+				xSpeed = -xSpeed;
+			}
+			if(x >= (brick.x+brick.width-1) || x <= brick.x  ) {
+				System.out.println(x);				
+				System.out.println();
+				xSpeed = -xSpeed;
+			} else {  
+				ySpeed = -ySpeed;
+			}
+		}
+	}
+	
 	public void checkCollisionWithWalls(int screenWidth, int screenHeight) {
-		System.out.println(screenHeight);
+		
 		//reverse direction on wall collision
 		if(x <= screenWidth-300 || x >= screenWidth+300-diameter) {
 			 xSpeed = -xSpeed;
@@ -37,7 +56,6 @@ public class Ball {
 	}
 	
 	public void checkCollisionWithPaddle(Rectangle paddle) {
-		System.out.println(ySpeed);
 	    if (getBounds().intersects(paddle)) {
 	        int paddleCenterX = paddle.x + paddle.width / 2;
 	        int ballCenterX = x + diameter / 2;

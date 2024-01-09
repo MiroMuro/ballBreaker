@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -24,6 +25,8 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 	int score = 0;
 	private Ball ball;
 	private Paddle paddle;
+	private Brick brick;
+	int numberOfBricks = 15;
 	private Timer timer;
 	boolean play = false;
 	
@@ -32,6 +35,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 		setFocusable(true);
 		ball = new Ball(screenWidth/2+100, screenHeight/2, 20); //spawn coordinates for the ball;
 		paddle = new Paddle(screenWidth/2-50,screenHeight/2+290, 100, 10,10);
+		brick = new Brick(900,330,80,50);
 		timer = new Timer(delay,this);
 		timer.start();
 		
@@ -56,6 +60,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 		g.fillRect((screenWidth-(screenWidth/2-300)),(screenHeight-(screenHeight/2+300)),3,600);
 
 		//Drawing the ball
+		brick.paint((Graphics2D) g);
 		ball.draw(g);
 		paddle.draw(g);
 		if(ball.checkOutOfBounds(screenHeight-240) == false) {
@@ -76,7 +81,8 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 			//Liikuta palloa.
 			ball.Move();
 			ball.checkCollisionWithWalls(screenWidth/2, screenHeight/2-300);
-			ball.checkCollisionWithPaddle(paddle.getBounds());					
+			ball.checkCollisionWithPaddle(paddle.getBounds());
+			ball.checkCollisionWithBrick(brick);
 			repaint();
 			// TODO Auto-generated method stub
 		}
