@@ -58,7 +58,10 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 		//Oikea laita
 		g.setColor(Color.yellow);
 		g.fillRect((screenWidth-(screenWidth/2-300)),(screenHeight-(screenHeight/2+300)),3,600);
-
+		
+		g.setColor(Color.red);
+		g.setFont(new Font("serif",Font.BOLD,30));
+		g.drawString("Score: "+score, 910, 300);
 		//Drawing the ball
 		
 		
@@ -71,6 +74,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 					blist.list[i][j].paint((Graphics2D) g);
 				} else {
 					blist.remove(i,j);
+					score += 5;
 				}
 			}
 			
