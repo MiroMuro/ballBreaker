@@ -26,7 +26,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 	int score = 0;
 	private Ball ball;
 	private Paddle paddle;
-	private BrickList blist = new BrickList(3,9);
+	private BrickList blist = new BrickList(1,1);
 	int numberOfBricks = 15;
 	private Timer timer;
 	boolean play = false;
@@ -75,17 +75,24 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 				} else {
 					blist.remove(i,j);
 					score += 5;
+					System.out.println(blist.getBricksAmount());
 				}
 			}
 			
 		}
+		
 		if(ball.checkOutOfBounds(screenHeight-240) == false) {
 			play = false;
 			g.setFont(new Font("serif",Font.BOLD,30));
 			g.drawString("You lost!",910,540);
 		};
 		
-		
+		if(score == (blist.getBricksAmount()*5)) {
+			
+			play = false;
+			g.setFont(new Font("serif",Font.BOLD,30));
+			g.drawString("You won!",910,540);
+		}
 		g.dispose();
 		
 	}

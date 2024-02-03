@@ -23,17 +23,17 @@ public class Ball {
 	}
 	
 	public void checkCollisionWithBrick(Brick brick) {
-		System.out.println(y);
+		
  		if(getBounds().intersects(brick.getBounds())){
 			
 			
 			if(x >= brick.x && x+20 < (brick.x + brick.width)) {				
-				System.out.println("X plus 1 on"+(x+1));
+				
 				ySpeed = -ySpeed;
 				brick.setDestroyed(true);
 			}
 			else if(y >= brick.y && y+20 < (brick.y + brick.height)) {
-				System.out.println("here");
+				
 				xSpeed = -xSpeed;
 				brick.setDestroyed(true);
 			}
