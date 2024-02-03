@@ -34,8 +34,8 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 	public Game() {
 		addKeyListener(this);
 		setFocusable(true);
-		ball = new Ball(screenWidth/2+100, screenHeight/2, 20); //spawn coordinates for the ball;
-		paddle = new Paddle(screenWidth/2-50,screenHeight/2+290, 100, 10,10);
+		ball = new Ball(1100,620, 20); //spawn coordinates for the ball;
+		paddle = new Paddle(screenWidth/2-50,screenHeight/2+290, 100, 10,20);
 		timer = new Timer(delay,this);
 		timer.start();
 		
@@ -65,6 +65,16 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 		blist.draw((Graphics2D) g);
 		ball.draw(g);
 		paddle.draw(g);
+		for(int i = 0; i < blist.list.length; i++) {
+			for(int j = 0; j< blist.list[i].length; j++) {
+				if(blist.list[i][j].destroyed == false) {
+					blist.list[i][j].paint((Graphics2D) g);
+				} else {
+					blist.remove(i,j);
+				}
+			}
+			
+		}
 		if(ball.checkOutOfBounds(screenHeight-240) == false) {
 			play = false;
 			g.setFont(new Font("serif",Font.BOLD,30));
@@ -87,6 +97,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 			for(int i = 0; i < blist.list.length; i++) {
 				for(int j = 0; j< blist.list[i].length; j++) {
 					ball.checkCollisionWithBrick(blist.list[i][j]);
+					repaint();
 				}
 				
 			}

@@ -15,7 +15,7 @@ public class Brick {
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		boolean destroyed = false;
+		this.destroyed = false;
 	}
 	
 	public void paint(Graphics2D g) {

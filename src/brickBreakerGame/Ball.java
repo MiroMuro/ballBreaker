@@ -14,7 +14,7 @@ public class Ball {
 		this.y = y;
 		this.diameter = diameter;
 		this.xSpeed = -3;
-		this.ySpeed = -1;
+		this.ySpeed = -4;
 	}
 	
 	public void Move() {
@@ -23,21 +23,36 @@ public class Ball {
 	}
 	
 	public void checkCollisionWithBrick(Brick brick) {
-		
-		if(getBounds().intersects(brick.getBounds())){
+		System.out.println(y);
+ 		if(getBounds().intersects(brick.getBounds())){
 			
-			brick.setDestroyed(true);
-			if(y >= (brick.height+brick.y-diameter)){
+			
+			if(x >= brick.x && x+20 < (brick.x + brick.width)) {				
+				System.out.println("X plus 1 on"+(x+1));
+				ySpeed = -ySpeed;
+				brick.setDestroyed(true);
+			}
+			else if(y >= brick.y && y+20 < (brick.y + brick.height)) {
+				System.out.println("here");
+				xSpeed = -xSpeed;
+				brick.setDestroyed(true);
+			}
+			
+			 
+			
+			
+			
+			
+			/*if(y >= (brick.height+brick.y-diameter)){
 				ySpeed= -ySpeed;
 				xSpeed = -xSpeed;
 			}
 			if(x >= (brick.x+brick.width-1) || x <= brick.x  ) {
-				System.out.println(x);				
-				System.out.println();
+				
 				xSpeed = -xSpeed;
 			} else {  
 				ySpeed = -ySpeed;
-			}
+			}*/
 		}
 	}
 	
@@ -49,7 +64,6 @@ public class Ball {
 		}
 		//reverse direction on ceiling collision
 		if(y < screenHeight -4 ) {
-			System.out.println("HWERE");
 			ySpeed = -ySpeed;
 		}
 		
